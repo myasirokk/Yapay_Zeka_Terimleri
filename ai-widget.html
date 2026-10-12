@@ -1,0 +1,126 @@
+<!-- ===== AI ASİSTAN WİDGET'I: index.html içinde, ana <script> etiketinden SONRA, </body>'den hemen önce yapıştır ===== -->
+<style>
+.aiw-btn{position:fixed;left:16px;bottom:16px;z-index:9;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:999px;color:#fff;font:600 .95rem "Segoe UI",system-ui,sans-serif;cursor:pointer;background:linear-gradient(135deg,#4f46e5,#8b5cf6);box-shadow:0 8px 24px rgba(79,70,229,.45);transition:transform .2s,box-shadow .2s}
+.aiw-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(79,70,229,.55)}
+.aiw-panel{position:fixed;left:16px;bottom:72px;z-index:9;width:min(380px,calc(100vw - 32px));height:min(540px,72vh);display:flex;flex-direction:column;background:#14122b;color:#e8e7f7;border:1px solid #2f2b5f;border-radius:16px;box-shadow:0 20px 50px rgba(15,10,60,.45);font:15px/1.55 "Segoe UI",system-ui,sans-serif;opacity:0;transform:translateY(12px) scale(.98);pointer-events:none;transition:opacity .25s,transform .25s;overflow:hidden}
+.aiw-panel.open{opacity:1;transform:none;pointer-events:auto}
+.aiw-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);font-weight:600}
+.aiw-head small{display:block;font-weight:400;opacity:.85;font-size:.75rem}
+.aiw-x{background:none;border:0;color:#fff;font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:8px}
+.aiw-x:hover{background:rgba(255,255,255,.18)}
+.aiw-log{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.aiw-m{max-width:88%;padding:9px 13px;border-radius:14px;word-wrap:break-word;overflow-wrap:anywhere}
+.aiw-m.u{align-self:flex-end;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
+.aiw-m.b{align-self:flex-start;background:#1f1c42;border:1px solid #2f2b5f;border-bottom-left-radius:4px}
+.aiw-m.err{border-color:#ef4444;color:#fecaca}
+.aiw-m code{background:#2a2660;padding:1px 5px;border-radius:5px;font:.85em Consolas,monospace}
+.aiw-m pre{background:#0d0b20;border:1px solid #2f2b5f;border-radius:8px;padding:10px;margin:6px 0;overflow:auto;white-space:pre}
+.aiw-m pre code{background:none;padding:0}
+.aiw-chips{display:flex;flex-wrap:wrap;gap:6px}
+.aiw-chip{background:#1f1c42;color:#c4b5fd;border:1px solid #2f2b5f;border-radius:999px;padding:5px 11px;font-size:.8rem;cursor:pointer;transition:.2s}
+.aiw-chip:hover{border-color:#8b5cf6;background:#2a2660}
+.aiw-dots span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:#a78bfa;animation:aiwb 1s infinite}
+.aiw-dots span:nth-child(2){animation-delay:.15s}.aiw-dots span:nth-child(3){animation-delay:.3s}
+@keyframes aiwb{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+.aiw-form{display:flex;gap:8px;padding:10px;border-top:1px solid #2f2b5f;background:#100e24}
+.aiw-in{flex:1;resize:none;max-height:110px;min-height:42px;background:#1a1838;color:#e8e7f7;border:1px solid #2f2b5f;border-radius:10px;padding:10px 12px;font:inherit}
+.aiw-in:focus{outline:2px solid #8b5cf6;outline-offset:0;border-color:transparent}
+.aiw-send{border:0;border-radius:10px;padding:0 16px;color:#fff;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#4f46e5,#8b5cf6);transition:opacity .2s}
+.aiw-send:disabled{opacity:.45;cursor:not-allowed}
+.aiw-note{padding:0 12px 8px;font-size:.7rem;color:#8b88b8;background:#100e24}
+@media(max-width:600px){.aiw-panel{left:8px;right:8px;width:auto;bottom:68px;height:75vh}.aiw-btn{left:10px;bottom:10px}}
+@media print{.aiw-btn,.aiw-panel{display:none!important}}
+@media(prefers-reduced-motion:reduce){.aiw-panel,.aiw-btn{transition:none}.aiw-dots span{animation:none}}
+</style>
+<script>
+(function(){
+  var ENDPOINT='/api/chat', hist=[], busy=false, lastSend=0;
+  var root=document.createElement('div');
+  root.innerHTML=
+   '<button class="aiw-btn" id="aiwBtn" aria-expanded="false" aria-controls="aiwPanel">🤖 AI Asistan</button>'+
+   '<section class="aiw-panel" id="aiwPanel" role="dialog" aria-label="AI Asistan">'+
+     '<div class="aiw-head"><div>AI Asistan<small>Terimler ve yazılım soruları için</small></div><button class="aiw-x" id="aiwX" aria-label="Kapat">✕</button></div>'+
+     '<div class="aiw-log" id="aiwLog" aria-live="polite"></div>'+
+     '<form class="aiw-form" id="aiwForm"><textarea class="aiw-in" id="aiwIn" rows="1" maxlength="1000" placeholder="Bir soru yaz..." aria-label="Mesajın"></textarea><button class="aiw-send" id="aiwSend" type="submit">Gönder</button></form>'+
+     '<div class="aiw-note">Yapay zeka hata yapabilir; önemli bilgileri doğrula. Mesajların ve ilerleme özetin yanıt üretmek için Google Gemini\'ye gönderilir. Notların gönderilmez.</div>'+
+   '</section>';
+  document.body.appendChild(root);
+  var $=function(id){return document.getElementById(id)};
+  var panel=$('aiwPanel'), log=$('aiwLog'), input=$('aiwIn'), sendBtn=$('aiwSend');
+
+  /* terim30v2 ilerleme verisinden bağlam üret (notlar dahil edilmez) */
+  function context(){
+    try{
+      var S=JSON.parse(localStorage.getItem('terim30v2')||'{}'), cur=+S.cur||1, L=S.learned||{}, sc=S.scores||{};
+      var lc=function(d){return Object.keys(L[d]||{}).length};
+      var hasT=typeof terms==='function', total=0, done=0;
+      for(var d=1;d<=30;d++){var c=lc(d);total+=c;var n=hasT?terms(d).length:20;if(n&&c>=n)done++}
+      var o={day:cur,doneDays:done,learnedTotal:total,learnedToday:lc(cur)};
+      if(typeof CAT!=='undefined'&&CAT[cur])o.category=CAT[cur];
+      if(hasT)o.todayTerms=terms(cur).map(function(t){return t.n});
+      if(sc[cur]!=null)o.todayBestScore=sc[cur];
+      return o;
+    }catch(e){return {}}
+  }
+
+  /* güvenli mini markdown: önce HTML kaçır, sonra kod/kalın biçimle */
+  function md(t){
+    return String(t).split(/(```[\s\S]*?```)/g).map(function(seg){
+      var h=seg.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      if(/^```/.test(h)) return '<pre><code>'+h.replace(/^```[\w-]*\n?/,'').replace(/```$/,'')+'</code></pre>';
+      return h.replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+    }).join('');
+  }
+  function add(role,text,html){
+    var m=document.createElement('div'); m.className='aiw-m '+role;
+    if(html) m.innerHTML=text; else m.textContent=text;
+    log.appendChild(m); log.scrollTop=log.scrollHeight; return m;
+  }
+  function chips(){
+    var w=document.createElement('div'); w.className='aiw-chips';
+    ['Bugünkü terimleri kısaca özetle','Git ile GitHub farkı nedir?','Şu an saat kaç?'].forEach(function(q){
+      var b=document.createElement('button'); b.type='button'; b.className='aiw-chip'; b.textContent=q;
+      b.onclick=function(){w.remove();send(q)}; w.appendChild(b);
+    });
+    log.appendChild(w);
+  }
+  function setBusy(v){busy=v;sendBtn.disabled=v;input.disabled=v;if(!v)input.focus()}
+
+  async function send(text){
+    text=(text||'').trim();
+    if(!text||busy)return;
+    if(Date.now()-lastSend<1500)return;
+    lastSend=Date.now();
+    var old=log.querySelector('.aiw-chips'); if(old)old.remove();
+    add('u',text); hist.push({role:'user',content:text}); if(hist.length>20)hist=hist.slice(-20);
+    input.value=''; input.style.height='auto'; setBusy(true);
+    var wait=add('b','<span class="aiw-dots"><span></span><span></span><span></span></span>',true);
+    try{
+      var r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        messages:hist.slice(-8), context:context(), clientTime:new Date().toString(),
+        timeZone:(Intl.DateTimeFormat().resolvedOptions().timeZone||'')
+      })});
+      var j={}; try{j=await r.json()}catch(e){}
+      if(!r.ok||!j.reply) throw new Error(j.error||'Bir hata oluştu, tekrar dene.');
+      wait.innerHTML=md(j.reply); hist.push({role:'assistant',content:j.reply});
+    }catch(e){
+      wait.textContent=(e instanceof TypeError)?'Sunucuya ulaşılamadı. İnternet bağlantını kontrol et.':e.message;
+      wait.classList.add('err'); hist.pop();
+    }
+    setBusy(false); log.scrollTop=log.scrollHeight;
+  }
+
+  function toggle(open){
+    panel.classList.toggle('open',open); $('aiwBtn').setAttribute('aria-expanded',open);
+    if(open){
+      if(!log.children.length){add('b','Merhaba! Terimler, yazılım ve yapay zeka hakkında soru sorabilirsin.');chips()}
+      setTimeout(function(){input.focus()},200);
+    }
+  }
+  $('aiwBtn').onclick=function(){toggle(!panel.classList.contains('open'))};
+  $('aiwX').onclick=function(){toggle(false)};
+  $('aiwForm').addEventListener('submit',function(e){e.preventDefault();send(input.value)});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input.value)}});
+  input.addEventListener('input',function(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,110)+'px'});
+})();
+</script>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>30 Günde AI Terimleri</title>
+<style>
+:root{--bg:#f8fafc;--sf:#ffffff;--sf2:#f1f5f9;--ln:#e2e8f0;--ind:#4f46e5;--vio:#4f46e5;--tx:#0f172a;--mu:#475569;--ok:#10b981;--bad:#ef4444;--sh:0 1px 3px rgba(15,23,42,.06),0 6px 16px rgba(15,23,42,.05)}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(900px 500px at 80% -10%,#e0e7ff 0,transparent 60%),var(--bg);color:var(--tx);font:16px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif;min-height:100vh;transition:padding .3s}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:700;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,#4f46e5,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);font-size:.9rem}
+button,select{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--vio);outline-offset:2px}
+.hb{display:flex;gap:8px;flex-wrap:wrap}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px}
+.bar{height:8px;background:var(--sf2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4f46e5,#3b82f6);border-radius:99px;transition:width .5s ease}
+.nav{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
+.nav h2{font-size:1.3rem;flex:1;min-width:0}
+.ib{width:38px;height:38px;border-radius:10px;border:1px solid var(--ln);background:var(--sf2);transition:.2s}
+.ib:hover:not(:disabled){border-color:var(--vio)}.ib:disabled{opacity:.35;cursor:default}
+select{background:var(--sf2);border:1px solid var(--ln);border-radius:10px;padding:8px 10px}
+select option{background:var(--sf)}
+.seg-row{display:flex;gap:3px}
+.seg{flex:1;height:18px;background:none;padding:6px 0;position:relative}
+.seg::after{content:"";display:block;height:6px;border-radius:3px;background:var(--sf2);transition:.25s}
+.seg.done::after{background:var(--ok)}.seg.act::after{background:var(--vio);height:6px;box-shadow:0 0 8px var(--ind)}
+.seg:hover::after{background:var(--ind)}
+.stats{display:flex;justify-content:space-between;font-size:.88rem;color:var(--mu);margin-bottom:6px;gap:10px;flex-wrap:wrap}
+.cta{background:linear-gradient(135deg,#4f46e5,#3b82f6);padding:10px 18px;border-radius:10px;font-weight:600;transition:.2s}
+.cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px #4f46e540}
+.ghost{border:1px solid var(--ln);padding:8px 14px;border-radius:10px;transition:.2s;font-size:.92rem}
+.ghost:hover{border-color:var(--vio)}
+#bn{margin:16px 0}
+.done-b{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-color:var(--ok);background:#10b9811a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;align-items:start}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:var(--vio);box-shadow:0 10px 30px #4f46e522}
+.card.ok{border-left:4px solid var(--ok)}
+.ill{height:84px;border-radius:10px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);display:grid;place-items:center;margin-bottom:12px}
+.ill svg{height:64px;width:120px;stroke:var(--vio);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
+.card:hover .ill svg{transform:translateY(-3px) scale(1.06)}
+.ill .f{fill:var(--ind);stroke:var(--ind)}.ill .g{fill:#4f46e51f}
+.cur{animation:bl 1s steps(2) infinite}@keyframes bl{50%{opacity:0}}
+.ch h3{font-size:1.05rem;line-height:1.3}
+.ph{color:var(--vio);font-size:.88rem}
+.card p{margin-top:8px;font-size:.92rem}
+.ex{background:var(--sf2);border-left:3px solid var(--ind);padding:8px 12px;border-radius:0 8px 8px 0}
+.acts{display:flex;gap:8px;margin-top:12px}
+.acts button{flex:1;padding:8px 6px;border-radius:8px;border:1px solid var(--ln);font-size:.86rem;transition:.2s;white-space:nowrap}
+.acts button:hover{border-color:var(--vio)}
+.acts .nb.has{color:var(--vio);border-color:var(--vio)}
+.card.ok .lr{background:#10b98120;border-color:var(--ok);color:var(--ok)}
+.pn{display:none}
+#dr{position:fixed;top:0;right:0;bottom:0;width:360px;max-width:100%;background:var(--sf);border-left:1px solid var(--ln);transform:translateX(100%);transition:transform .3s ease;z-index:8;display:flex;flex-direction:column;padding:16px;box-shadow:-10px 0 40px rgba(15,23,42,.12)}
+#dr.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#dc{overflow:auto;flex:1}
+#dc h3{font-size:1rem}
+textarea{width:100%;margin-top:10px;min-height:130px;resize:vertical;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:10px;font:inherit;font-size:.92rem}
+#nl h4{margin:18px 0 6px;font-size:.9rem;color:var(--mu)}
+.ni{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:8px;background:var(--sf2);margin-top:6px;font-size:.85rem}
+.ni b{display:block}.ni span{color:var(--mu);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.dro{padding-right:360px}
+#test{position:fixed;inset:0;background:#f8fafcf7;display:none;overflow:auto;z-index:10;padding:20px 16px}
+#test.on{display:block}
+.tbox{max-width:680px;margin:0 auto}
+.opt{display:block;width:100%;text-align:left;margin-top:10px;padding:13px 15px;border-radius:10px;background:var(--sf);border:1px solid var(--ln);transition:.2s}
+.opt:hover:not(:disabled){border-color:var(--vio);transform:translateX(3px)}
+.opt.good{background:#10b98120;border-color:var(--ok)}.opt.wrong{background:#ef444418;border-color:var(--bad)}
+.big{font-size:3rem;font-weight:800;margin:10px 0}
+#toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--sf2);border:1px solid var(--vio);padding:10px 18px;border-radius:10px;opacity:0;transition:.3s;pointer-events:none;z-index:20;max-width:90vw;font-size:.9rem}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){#dr{top:auto;width:100%;height:55vh;border-left:0;border-top:1px solid var(--ln);border-radius:16px 16px 0 0;transform:translateY(100%)}body.dro{padding-right:0;padding-bottom:55vh}.grid{grid-template-columns:1fr}}
+@media print{:root{--bg:#fff;--sf:#fff;--sf2:#f3f3f8;--ln:#bbb;--tx:#000;--mu:#444;--vio:#4338ca}body{background:#fff;padding:0!important}.acts,#dr,#test,.hb,.nav button,.nav select,#bn,.seg-row,#toast{display:none!important}.card{break-inside:avoid}.pn{display:block;border-top:1px dashed #999;padding-top:6px;font-style:italic}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.panel,.card{box-shadow:var(--sh)}.cta{color:#fff}select{max-width:190px}.nav h2 small{display:block;font-size:.8rem;font-weight:500;color:var(--mu)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div><h1>30 Günde <span>AI Terimleri</span></h1><p class="sub">Muhammed Yasir OK</p></div>
+    <div class="hb"><button class="ghost" id="nbtn">📝 Not Defteri</button><button class="ghost" id="print">🖨 Yazdır</button><button class="ghost" id="reset">Sıfırla</button></div>
+  </header>
+  <section class="panel">
+    <div class="stats"><span id="st1"></span><span id="st2"></span></div>
+    <div class="bar"><i id="bgAll"></i></div>
+    <div class="nav">
+      <button class="ib" id="pd" aria-label="Önceki gün">‹</button>
+      <h2 id="dt"></h2>
+      <select id="dsel" aria-label="Gün seç"></select>
+      <button class="ib" id="nd" aria-label="Sonraki gün">›</button>
+    </div>
+    <div class="seg-row" id="seg"></div>
+  </section>
+  <div id="bn"></div>
+  <main id="main" class="grid"></main>
+</div>
+<aside id="dr" aria-label="Not defteri"><div class="dh"><b>📝 Not Defteri</b><button class="ib" id="drx" aria-label="Kapat">✕</button></div><div id="dc"></div></aside>
+<div id="test"><div class="tbox" id="tbox"></div></div>
+<div id="toast" role="status"></div>
+
+<script>
+/* ===== VERİ: 2-30. günler için DAYS[n] = [ {n,p,s,g,d,e,q,a,w} x20 ] ekleyin =====
+   n: terim, p: Türkçe okunuş, s: seslendirilecek İngilizce metin, g: SVG içeriği (viewBox 0 0 120 64),
+   d: açıklama, e: örnek, q: test sorusu, a: doğru şık, w: 3 yanlış şık */
+const DAYS = {
+1: [
+{n:"Frontend",p:"frant-end",s:"Frontend",g:'<rect class="g" x="20" y="6" width="80" height="52" rx="6"/><path d="M20 18H100M28 42H92M28 49H72"/><circle class="f" cx="28" cy="12" r="1.5"/><circle class="f" cx="35" cy="12" r="1.5"/><rect class="f" x="28" y="24" width="30" height="10" rx="2"/><rect x="66" y="24" width="26" height="10" rx="5"/>',d:"Kullanıcının tarayıcıda gördüğü ve etkileşime girdiği arayüz tarafı. Buton, form, menü ve sayfa düzeni buraya aittir.",e:"E-ticaret sitesindeki 'Sepete Ekle' butonu ve ürün listesi frontend kodudur (HTML, CSS, JavaScript).",q:"Frontend neyi ifade eder?",a:"Kullanıcının gördüğü ve kullandığı arayüz tarafını",w:["Sunucudaki veritabanı yönetimini","Kodun sürüm geçmişini","Ağ güvenliği ayarlarını"]},
+{n:"Backend",p:"bek-end",s:"Backend",g:'<rect class="g" x="30" y="6" width="60" height="14" rx="3"/><rect class="g" x="30" y="25" width="60" height="14" rx="3"/><rect class="g" x="30" y="44" width="60" height="14" rx="3"/><circle class="f" cx="40" cy="13" r="2"/><circle class="f" cx="40" cy="32" r="2"/><circle class="f" cx="40" cy="51" r="2"/><path d="M60 13H80M60 32H80M60 51H80"/>',d:"Kullanıcının görmediği, sunucuda çalışan mantık katmanı. Veriyi işler, veritabanıyla konuşur, kimlik doğrulama yapar.",e:"Giriş yaptığında şifreni kontrol edip oturum açan sunucu kodu backend'dir (Python, Node.js, Java).",q:"Aşağıdakilerden hangisi tipik bir backend görevidir?",a:"Şifreyi doğrulayıp veritabanından kullanıcı verisini çekmek",w:["Butonun rengini değiştirmek","Sayfa animasyonu eklemek","Mobil ekrana uyum sağlamak"]},
+{n:"Full-Stack",p:"ful-stek",s:"Full stack",g:'<path class="g" d="M60 6L100 20L60 34L20 20Z"/><path d="M20 30L60 44L100 30M20 40L60 54L100 40"/>',d:"Hem frontend hem backend tarafında çalışabilen geliştirici veya bu iki katmanı kapsayan uygulama bütünü.",e:"Tek başına arayüzü, API'yi ve veritabanını kuran bir geliştirici full-stack çalışır.",q:"Full-Stack geliştirici kimdir?",a:"Hem arayüz hem sunucu tarafında çalışabilen kişi",w:["Yalnızca veritabanı yöneten kişi","Sadece tasarım yapan kişi","Yalnızca test yazan kişi"]},
+{n:"API (Application Programming Interface)",p:"ey-pi-ay",s:"A P I. Application Programming Interface",g:'<rect class="g" x="6" y="18" width="30" height="28" rx="5"/><rect class="g" x="84" y="18" width="30" height="28" rx="5"/><path d="M42 26H78M72 20L78 26L72 32M78 40H42M48 34L42 40L48 46"/>',d:"Yazılımların birbiriyle konuşmasını sağlayan kurallar ve uç noktalar bütünü. İsteğe karşılık düzenli bir cevap verir.",e:"Hava durumu uygulaması, bir servisin API'sine istek atıp sıcaklığı JSON olarak alır.",q:"API'nin temel amacı nedir?",a:"Yazılımların birbiriyle standart biçimde iletişim kurması",w:["Kodu otomatik olarak hızlandırmak","Bilgisayarı yeniden başlatmak","Dosyaları sıkıştırmak"]},
+{n:"Git",p:"git (g sert)",s:"Git",g:'<path d="M16 38H104M60 38Q68 14 92 14"/><circle class="f" cx="30" cy="38" r="5"/><circle class="f" cx="60" cy="38" r="5"/><circle class="f" cx="90" cy="38" r="5"/><circle class="f" cx="92" cy="14" r="5"/>',d:"Kodun sürüm geçmişini tutan dağıtık sürüm kontrol sistemi. Değişiklikleri izler, geri dönmeyi ve ekip çalışmasını kolaylaştırır.",e:"Kodu bozdun mu? 'git log' ile geçmişe bakıp çalışan eski sürüme dönebilirsin.",q:"Git ne işe yarar?",a:"Kod değişikliklerinin sürümlerini izler",w:["Web sitesini barındırır","Veritabanı sorgusu çalıştırır","Ses dosyalarını işler"]},
+{n:"GitHub / GitLab",p:"git-hab / git-leb",s:"GitHub. GitLab",g:'<path class="g" d="M34 48a12 12 0 0 1 0-24a18 18 0 0 1 34-4a14 14 0 0 1 20 14a10 10 0 0 1-2 14Z"/><path d="M60 54V32M51 41L60 32L69 41"/>',d:"Git depolarını internette barındıran; ekip çalışması, kod incelemesi ve otomasyon sunan platformlar.",e:"Açık kaynak bir projeyi GitHub'dan indirir, kendi kopyanı oluşturup katkı verirsin.",q:"GitHub ile Git arasındaki fark nedir?",a:"Git bir araçtır, GitHub o aracın depolarını barındıran platformdur",w:["İkisi tamamen aynı şeydir","GitHub bir programlama dilidir","Git yalnızca web sitesidir"]},
+{n:"Repository (Repo)",p:"ri-po-zi-tö-ri (ri-po)",s:"Repository",g:'<path class="g" d="M16 14H42L50 22H104V54H16Z"/><path d="M30 34H90M30 44H70"/>',d:"Projenin tüm dosyalarını ve sürüm geçmişini tutan depo. Yerel veya uzak (GitHub'da) olabilir.",e:"'git clone' komutuyla bir repoyu bilgisayarına indirirsin.",q:"Repository nedir?",a:"Proje dosyalarının ve geçmişinin tutulduğu depo",w:["Kodu çalıştıran sunucu","Bir test türü","Bir veritabanı sorgu dili"]},
+{n:"Commit",p:"ko-mit",s:"Commit",g:'<path d="M12 32H44M76 32H108"/><circle class="g" cx="60" cy="32" r="16"/><path d="M52 32L58 38L69 26"/>',d:"Yaptığın değişikliklerin bir mesajla birlikte Git geçmişine kaydedilmiş anlık görüntüsü.",e:"git commit -m \"Giriş formuna doğrulama eklendi\" bir kayıt noktası oluşturur.",q:"Commit işleminin sonucu nedir?",a:"Değişikliklerin geçmişe mesajla kaydedilmesi",w:["Kodun silinmesi","Projenin sunucuya yüklenmesi","Branch'in kapatılması"]},
+{n:"Branch",p:"bränç",s:"Branch",g:'<path d="M16 32H48Q64 32 64 16H100M48 32Q64 32 64 48H100"/><circle class="f" cx="16" cy="32" r="4"/><circle class="f" cx="100" cy="16" r="4"/><circle class="f" cx="100" cy="48" r="4"/>',d:"Ana koddan ayrılan bağımsız çalışma dalı. Ana kodu bozmadan yeni özellik denemeni sağlar.",e:"'feature/login' dalında giriş sayfasını geliştirirsin, main dalı bozulmaz.",q:"Branch neden kullanılır?",a:"Ana kodu etkilemeden bağımsız geliştirme yapmak için",w:["Veritabanını yedeklemek için","Kodu şifrelemek için","İnternet hızını artırmak için"]},
+{n:"Merge",p:"mörc",s:"Merge",g:'<path d="M16 16H52Q68 16 68 32M16 48H52Q68 48 68 32M68 32H100"/><circle class="f" cx="16" cy="16" r="4"/><circle class="f" cx="16" cy="48" r="4"/><circle class="f" cx="100" cy="32" r="5"/>',d:"Bir daldaki değişiklikleri başka bir dalla (genellikle main) birleştirme işlemi.",e:"Özellik dalın tamamlanınca main dalına merge edersin.",q:"Merge ne yapar?",a:"İki dalın değişikliklerini birleştirir",w:["Yeni bir repo oluşturur","Commit mesajını siler","Kodu derler"]},
+{n:"Pull Request (PR)",p:"pul ri-kvest (pi-ar)",s:"Pull Request",g:'<circle class="f" cx="24" cy="14" r="5"/><circle class="f" cx="24" cy="50" r="5"/><path d="M24 19V45"/><circle class="g" cx="96" cy="50" r="5"/><path d="M52 14H78Q96 14 96 32V44M60 8L52 14L60 20"/>',d:"Dalındaki değişikliklerin ana dala alınması için ekibe sunduğun inceleme ve onay talebi.",e:"PR açarsın, takım arkadaşın kodu inceler, onaylarsa merge edilir.",q:"Pull Request'in amacı nedir?",a:"Değişikliklerin incelenip birleştirilmesini talep etmek",w:["Sunucudan dosya indirmek","Hataları otomatik düzeltmek","Repoyu silmek"]},
+{n:"Database (Veritabanı)",p:"dey-ta-beys",s:"Database",g:'<path class="g" d="M32 14V50A28 8 0 0 0 88 50V14Z"/><ellipse class="g" cx="60" cy="14" rx="28" ry="8"/><path d="M32 32A28 8 0 0 0 88 32"/>',d:"Verilerin düzenli, kalıcı ve sorgulanabilir biçimde saklandığı sistem.",e:"Bir uygulamadaki kullanıcı hesapları ve siparişler veritabanında tutulur.",q:"Veritabanının görevi nedir?",a:"Veriyi kalıcı ve düzenli şekilde saklayıp sorgulatmak",w:["Arayüzü çizmek","Kodu sürümlemek","Sesi metne çevirmek"]},
+{n:"SQL",p:"es-kyu-el / sikvıl",s:"S Q L",g:'<rect class="g" x="20" y="8" width="80" height="48" rx="5"/><path d="M20 22H100M20 36H100M20 48H100M50 8V56"/><circle class="f" cx="30" cy="15" r="2"/><circle class="f" cx="75" cy="42" r="3"/>',d:"İlişkisel veritabanlarında veri okumak, eklemek, güncellemek ve silmek için kullanılan sorgu dili.",e:"SELECT * FROM users WHERE age > 18; sorgusu 18 yaşından büyükleri listeler.",q:"SQL nedir?",a:"İlişkisel veritabanlarını sorgulama dili",w:["Bir JavaScript kütüphanesi","Bir sürüm kontrol aracı","Bir bulut sağlayıcısı"]},
+{n:"NoSQL",p:"no-es-kyu-el",s:"No S Q L",g:'<text x="60" y="46" font-size="38" font-weight="700" text-anchor="middle" font-family="Consolas,monospace" class="f" stroke="none">{ }</text>',d:"Tablo yapısına bağlı olmayan, esnek şemalı (belge, anahtar-değer, graf) veritabanları grubu.",e:"MongoDB, kullanıcı verisini JSON benzeri belgeler olarak saklar.",q:"Aşağıdakilerden hangisi NoSQL veritabanıdır?",a:"MongoDB",w:["PostgreSQL","MySQL","SQLite"]},
+{n:"CLI (Command Line Interface)",p:"si-el-ay",s:"C L I. Command Line Interface",g:'<rect class="g" x="12" y="8" width="96" height="48" rx="6"/><path d="M26 24L38 32L26 40M46 42H68"/><rect class="f cur" x="74" y="38" width="8" height="5"/>',d:"Programları fare yerine komut yazarak kullandığın metin tabanlı arayüz (terminal).",e:"'npm install' yazıp bir paketi kurmak CLI kullanımıdır.",q:"CLI ile ne yapılır?",a:"Komut yazarak programları çalıştırmak",w:["Yalnızca görsel tasarım yapmak","Sadece web sayfası görüntülemek","Ekran görüntüsü almak"]},
+{n:"Environment Variable (.env)",p:"en-vay-ron-ment ve-ri-ıbıl (dot-env)",s:"Environment variable",g:'<rect class="g" x="38" y="28" width="44" height="28" rx="5"/><path d="M46 28V22a14 14 0 0 1 28 0V28"/><circle class="f" cx="60" cy="42" r="3"/>',d:"Kodun dışında tutulan yapılandırma ve gizli bilgiler (API anahtarı, şifre). Kod değişmeden ortama göre farklı değer verilir.",e:".env dosyasına OPENAI_API_KEY=... yazarsın ve bu dosyayı GitHub'a yüklemezsin.",q:".env dosyası neden kullanılır?",a:"Gizli anahtar ve ayarları koddan ayrı tutmak için",w:["Kodu hızlandırmak için","Arayüzü renklendirmek için","Veritabanını silmek için"]},
+{n:"Data Structure (Veri Yapısı)",p:"dey-ta strak-çır",s:"Data structure",g:'<path d="M60 14L34 34M60 14L86 34M34 34L20 54M34 34L48 54"/><circle class="f" cx="60" cy="12" r="6"/><circle class="g" cx="34" cy="34" r="6"/><circle class="g" cx="86" cy="34" r="6"/><circle class="g" cx="20" cy="54" r="5"/><circle class="g" cx="48" cy="54" r="5"/>',d:"Veriyi verimli saklamak ve işlemek için kullanılan düzen: liste, sözlük, yığın, kuyruk, ağaç gibi.",e:"Python'daki dict (sözlük), anahtarla hızlıca değer bulmayı sağlar.",q:"Aşağıdakilerden hangisi bir veri yapısıdır?",a:"Yığın (Stack)",w:["Commit","Branch","Endpoint"]},
+{n:"Algorithm (Algoritma)",p:"el-gı-ri-dım",s:"Algorithm",g:'<rect class="g" x="6" y="24" width="28" height="16" rx="8"/><path class="g" d="M60 12L80 32L60 52L40 32Z"/><rect class="g" x="86" y="24" width="28" height="16" rx="3"/><path d="M34 32H40M80 32H86M82 28L86 32L82 36"/>',d:"Bir problemi çözmek için izlenen adım adım net talimatlar dizisi.",e:"Sıralı listede sayıyı ortadan ikiye bölerek bulan 'binary search' bir algoritmadır.",q:"Algoritma nedir?",a:"Bir problemi çözen adım adım talimatlar dizisi",w:["Bir programlama dili","Bir veritabanı türü","Bir tarayıcı eklentisi"]},
+{n:"SDK (Software Development Kit)",p:"es-di-key",s:"S D K. Software Development Kit",g:'<path class="g" d="M60 6L92 20V44L60 58L28 44V20Z"/><path d="M28 20L60 34L92 20M60 34V58"/>',d:"Bir platform veya servisle çalışan yazılım geliştirmek için hazır araç, kütüphane ve dokümantasyon paketi.",e:"Anthropic Python SDK'sı ile HTTP isteklerini elle yazmadan birkaç satırda API'ye mesaj gönderirsin.",q:"SDK ne sağlar?",a:"Bir servisle çalışmak için hazır araç ve kütüphane paketi",w:["Yalnızca ekran tasarımı","Sadece sunucu donanımı","Bir veritabanı yedeği"]},
+{n:"Bug & Debugging",p:"bag end di-bag-ing",s:"Bug and debugging",g:'<ellipse class="g" cx="60" cy="38" rx="14" ry="18"/><circle class="f" cx="60" cy="18" r="7"/><path d="M60 20V56M46 30L32 24M46 40H30M47 50L34 58M74 30L88 24M74 40H90M73 50L86 58M55 12L50 5M65 12L70 5"/>',d:"Bug, yazılımdaki hata veya beklenmeyen davranıştır. Debugging, bu hatayı bulup ayıklama sürecidir.",e:"Giriş butonu çalışmıyorsa konsol hatasını okuyup breakpoint koyarak nedeni bulursun.",q:"Debugging nedir?",a:"Yazılımdaki hataları bulup düzeltme süreci",w:["Yeni özellik tasarlama","Kodu sunucuya yükleme","Veritabanı şeması çizme"]}
+]};
+const TEMPLATE='DAYS[2] = [\n  {n:"Terim Adı", p:"Türkçe okunuş", s:"English speech text",\n   g:\'<svg içeriği: viewBox 0 0 120 64>\',\n   d:"Açıklama", e:"Örnek kullanım",\n   q:"Test sorusu?", a:"Doğru şık", w:["Yanlış 1","Yanlış 2","Yanlış 3"]},\n  // ... toplam 20 terim\n];';
+
+
+/* ===== 2-30. GÜNLER: kompakt veri + jeneratör =====
+   Format: "Terim|okunuş|açıklama|örnek". Test soruları ve seslendirme metni otomatik üretilir. */
+const ICONS={
+code:'<rect class="g" x="14" y="10" width="92" height="44" rx="6"/><path d="M42 24L30 32L42 40M78 24L90 32L78 40M66 22L54 42"/>',
+db:'<path class="g" d="M32 14V50A28 8 0 0 0 88 50V14Z"/><ellipse class="g" cx="60" cy="14" rx="28" ry="8"/><path d="M32 32A28 8 0 0 0 88 32"/>',
+net:'<path d="M60 32L24 14M60 32L96 14M60 32L24 50M60 32L96 50"/><circle class="f" cx="60" cy="32" r="8"/><circle class="g" cx="24" cy="14" r="6"/><circle class="g" cx="96" cy="14" r="6"/><circle class="g" cx="24" cy="50" r="6"/><circle class="g" cx="96" cy="50" r="6"/>',
+box:'<path class="g" d="M60 6L92 20V44L60 58L28 44V20Z"/><path d="M28 20L60 34L92 20M60 34V58"/>',
+term:'<rect class="g" x="12" y="8" width="96" height="48" rx="6"/><path d="M26 24L38 32L26 40M46 42H68"/><rect class="f cur" x="74" y="38" width="8" height="5"/>',
+lock:'<rect class="g" x="38" y="28" width="44" height="28" rx="5"/><path d="M46 28V22a14 14 0 0 1 28 0V28"/><circle class="f" cx="60" cy="42" r="3"/>',
+chart:'<path d="M18 54H102"/><rect class="g" x="26" y="34" width="14" height="20"/><rect class="g" x="48" y="22" width="14" height="32"/><rect class="f" x="70" y="10" width="14" height="44"/>',
+brain:'<path d="M24 14L60 20M24 14L60 44M24 32L60 20M24 32L60 44M24 50L60 20M24 50L60 44M60 20L96 32M60 44L96 32"/><circle class="g" cx="24" cy="14" r="5"/><circle class="g" cx="24" cy="32" r="5"/><circle class="g" cx="24" cy="50" r="5"/><circle class="f" cx="60" cy="20" r="5"/><circle class="f" cx="60" cy="44" r="5"/><circle class="g" cx="96" cy="32" r="6"/>',
+cloud:'<path class="g" d="M34 48a12 12 0 0 1 0-24a18 18 0 0 1 34-4a14 14 0 0 1 20 14a10 10 0 0 1-2 14Z"/><path d="M46 36H74"/>',
+gear:'<circle class="g" cx="60" cy="32" r="12"/><circle cx="60" cy="32" r="22"/><path d="M60 6V14M60 50V58M34 32H26M94 32H86M42 14L48 20M72 44L78 50M78 14L72 20M48 44L42 50"/>'
+};
+const RAW=[
+["Python & OOP","code",["Variable (Değişken)|ver-i-ıbıl|Veriyi isimle saklayan bellek kutusu|age = 25","Function (Fonksiyon)|fank-şın|Tekrar çağrılabilen, adlandırılmış kod bloğu|def topla(a, b): return a + b","Class (Sınıf)|klas|Nesnelerin şablonu; özellik ve davranışları tanımlar|class Kullanici: ...","Object (Nesne)|ob-cekt|Bir sınıftan üretilmiş somut örnek|u = Kullanici()","Inheritance (Kalıtım)|in-her-i-tans|Bir sınıfın başka bir sınıfın özelliklerini devralması|class Admin(Kullanici)"]],
+["Veritabanları & SQL","db",["Primary Key|pray-mer-i ki|Tablodaki her satırı benzersiz tanımlayan sütun|id sütunu","Foreign Key|for-ın ki|Başka tablodaki kaydı işaret eden anahtar|orders.user_id, users.id'yi gösterir","JOIN|coyn|İki tabloyu ortak sütun üzerinden birleştiren sorgu|users ile orders tablolarını birleştirmek","Index|in-deks|Aramayı hızlandıran veri yapısı|email sütununa index koymak","Transaction|tran-zek-şın|Ya tamamen uygulanan ya hiç uygulanmayan işlem grubu|Para transferinde iki güncelleme birlikte"]],
+["REST API & Web","net",["REST|rest|HTTP üzerinden kaynak odaklı API tasarım stili|GET /users/5","Endpoint|end-poynt|API'de belirli bir işleve açılan URL adresi|/api/login","JSON|ceyson|Veri taşımak için kullanılan hafif metin formatı|Ad ve yaş anahtarlı bir nesne","HTTP Method|eyç-ti-ti-pi me-tıd|İsteğin amacını belirten fiil: GET, POST, PUT, DELETE|POST ile yeni kayıt oluşturmak","Status Code|stey-tıs kod|Sunucunun isteğe verdiği sayısal sonuç kodu|200 başarılı, 404 bulunamadı"]],
+["Docker & DevOps","box",["Docker|do-kır|Uygulamayı bağımlılıklarıyla paketleyip çalıştıran konteyner platformu|docker run nginx","Container|kın-tey-nır|Uygulamayı yalıtılmış ortamda çalıştıran hafif paket|Aynı uygulama her makinede aynı çalışır","Image|i-mic|Konteynerin oluşturulduğu salt okunur şablon|python:3.12 imajı","Dockerfile|do-kır-fayl|İmajın nasıl kurulacağını yazan talimat dosyası|FROM python:3.12","CI/CD|si-ay si-di|Kodu otomatik test edip yayına alan süreç|Push sonrası otomatik test ve deploy"]],
+["Linux & Terminal","term",["Shell|şel|Komutları yorumlayıp çalıştıran kabuk programı|bash, zsh","Permission|per-mi-şın|Dosyayı kimin okuyup yazabileceğini belirleyen izinler|chmod +x script.sh","Process|pro-ses|Çalışmakta olan bir programın örneği|ps aux ile listelemek","Pipe|payp|Bir komutun çıktısını diğerinin girdisi yapan bağlantı|cat log.txt | grep error","SSH|es-es-eyç|Uzak makineye şifreli bağlantı protokolü|ssh kullanici@sunucu"]],
+["Ağ & HTTP","net",["IP Address|ay-pi ad-res|Ağdaki cihazın sayısal adresi|192.168.1.10","DNS|di-en-es|Alan adını IP adresine çeviren sistem|google.com adresini IP'ye çevirmek","HTTPS|eyç-ti-ti-pi-es|Şifrelenmiş HTTP; veriyi yolda korur|Tarayıcıdaki kilit simgesi","Port|port|Bir makinedeki servisleri ayıran numara|Web sunucusu 443 portunda","Latency|ley-tın-si|İsteğin gidip gelme gecikmesi|Ping süresi 20 ms"]],
+["Güvenlik","lock",["Authentication|o-then-ti-key-şın|Kullanıcının kim olduğunu doğrulama|Şifre ile giriş","Authorization|o-thor-ay-zey-şın|Doğrulanan kullanıcının neye erişebileceğini belirleme|Sadece admin silebilir","Token (JWT)|to-kın (cey-dabılyu-ti)|Kimliği taşıyan imzalı dijital anahtar|Bearer token ile istek atmak","Hashing|he-şing|Veriyi geri döndürülemez özet değere çevirme|Şifreyi bcrypt ile saklamak","SQL Injection|es-kyu-el in-cek-şın|Girdiye zararlı SQL sokarak veritabanına saldırma|Forma sorguyu bozan metin girmek"]],
+["JavaScript & Node","code",["Node.js|nod-ceyes|JavaScript'i tarayıcı dışında çalıştıran ortam|node app.js","npm|en-pi-em|JavaScript paket yöneticisi|npm install express","Async/Await|ey-sink / ey-weyt|Asenkron işleri sıralı okunur yazma sözdizimi|const veri = await fetch(url)","Promise|pro-mis|İleride tamamlanacak işlemin sonucunu temsil eden nesne|fetch(url).then(...)","DOM|dom|Tarayıcının HTML sayfasını nesne ağacı olarak sunması|document.querySelector"]],
+["Test & Kalite","gear",["Unit Test|yu-nit test|Küçük bir kod parçasını tek başına doğrulayan test|add(2,3) sonucu 5 mi?","Integration Test|in-te-grey-şın test|Birden çok bileşenin birlikte çalışmasını doğrulayan test|API ile veritabanını birlikte denemek","Mock|mok|Gerçek bağımlılığın yerine geçen sahte nesne|Sahte ödeme servisi","Code Coverage|kod ka-vı-rıc|Testlerin kodun ne kadarını çalıştırdığı oranı|%85 kapsama","Refactoring|ri-fek-tı-ring|Davranışı değiştirmeden kodu düzenleme|Uzun fonksiyonu parçalamak"]],
+["Bulut","cloud",["Cloud Computing|klaud kom-pyu-ting|Sunucu ve servisleri internet üzerinden kiralama modeli|AWS, Azure, Google Cloud","Serverless|sör-vır-les|Sunucu yönetmeden fonksiyon çalıştırma modeli|AWS Lambda","Load Balancer|lod ba-lan-sır|Trafiği birden fazla sunucuya dağıtan bileşen|İstekleri 3 sunucuya paylaştırmak","Kubernetes|ku-ber-ne-tis|Konteynerleri otomatik yöneten orkestrasyon sistemi|Pod sayısını otomatik artırmak","CDN|si-di-en|İçeriği kullanıcıya yakın sunucudan veren ağ|Görselleri dünya çapında hızlı sunmak"]],
+["Mimari & Desenler","gear",["Microservices|may-kro-sör-vi-sis|Uygulamayı bağımsız küçük servislere bölme mimarisi|Ödeme ve kullanıcı ayrı servis","Monolith|mo-no-lit|Tüm özelliklerin tek bütün halinde olduğu uygulama|Tek kod tabanı, tek deploy","Design Pattern|di-zayn pe-tırn|Sık problemler için kanıtlanmış tasarım çözümü|Singleton, Factory","SOLID|so-lid|Sürdürülebilir OOP için beş tasarım ilkesi|Tek sorumluluk ilkesi","Caching|ke-şing|Sık kullanılan veriyi hızlı erişim için saklama|Redis ile sonuçları tutmak"]],
+["Veri Analizi","chart",["NumPy|nam-pay|Python'da hızlı sayısal dizi işlemleri kütüphanesi|np.array([1, 2, 3])","Pandas|pan-dıs|Tablo verisini işleyen Python kütüphanesi|df.groupby('city')","DataFrame|dey-ta-freym|Pandas'ta satır ve sütunlu tablo yapısı|CSV dosyasını okumak","Data Cleaning|dey-ta kli-ning|Eksik ve hatalı veriyi düzeltme süreci|Boş değerleri doldurmak","Visualization|vi-jü-ı-li-zey-şın|Veriyi grafiklerle anlatma|Matplotlib ile çizgi grafik"]],
+["İstatistik","chart",["Mean|min|Değerlerin toplamının adede bölünmesiyle bulunan ortalama|2, 4, 6 için ortalama 4","Median|mi-di-ın|Sıralı verinin ortasındaki değer|Aykırı değerlerden az etkilenir","Standard Deviation|stan-dırd di-vi-ey-şın|Verinin ortalamadan ne kadar dağıldığını gösteren ölçü|Küçükse veri ortalamaya yakındır","Probability|prob-ı-bi-li-ti|Bir olayın gerçekleşme ihtimali|Yazı tura için 0.5","Correlation|ko-rı-ley-şın|İki değişkenin birlikte değişme ilişkisi|Reklam harcaması ve satış"]],
+["Makine Öğrenmesi","brain",["Machine Learning|mı-şin ler-ning|Bilgisayarın veriden örüntü öğrenmesi|Spam filtresi","Supervised Learning|su-pır-vayzd ler-ning|Etiketli verilerle öğrenme|Fiyatı bilinen evlerden tahmin","Unsupervised Learning|an-su-pır-vayzd ler-ning|Etiketsiz veride gruplar ve örüntüler bulma|Müşteri kümeleme","Feature|fi-çır|Modelin girdi olarak kullandığı özellik|Evin metrekaresi","Label|ley-bıl|Modelin tahmin etmeye çalıştığı doğru cevap|Ev fiyatı"]],
+["Model Değerlendirme","chart",["Overfitting|o-vır-fi-ting|Modelin eğitim verisini ezberleyip yeni veride başarısız olması|Eğitimde %99, testte %60","Train/Test Split|treyn test split|Veriyi eğitim ve test olarak ayırma|%80 eğitim, %20 test","Accuracy|ek-yu-ra-si|Doğru tahminlerin tüm tahminlere oranı|100 tahminin 90'ı doğru","Precision & Recall|pri-si-jın end ri-kol|Kesinlik ve yakalama oranı ölçüleri|Hastalık tespitinde recall önemli","Cross-Validation|kros va-li-dey-şın|Veriyi katlara bölerek modeli tekrar tekrar doğrulama|5 katlı doğrulama"]],
+["Derin Öğrenme","brain",["Neural Network|nu-ral net-vörk|Katmanlı yapay nöronlardan oluşan öğrenme modeli|Görüntü sınıflandırıcı","Layer|ley-ır|Sinir ağında nöronların oluşturduğu katman|Girdi, gizli, çıktı katmanı","Activation Function|ek-ti-vey-şın fank-şın|Nöron çıktısına doğrusal olmayanlık katan fonksiyon|ReLU, sigmoid","Deep Learning|dip ler-ning|Çok katmanlı sinir ağlarıyla öğrenme|Yüz tanıma","GPU|ci-pi-yu|Paralel hesapla eğitimi hızlandıran işlemci|Eğitimi saatlerden dakikalara indirmek"]],
+["Model Eğitimi","brain",["Loss Function|los fank-şın|Modelin tahmininin ne kadar yanlış olduğunu ölçen fonksiyon|Mean squared error","Gradient Descent|gre-di-ınt di-sent|Hatayı azaltmak için ağırlıkları adım adım güncelleme|Vadiye inen top gibi","Backpropagation|bek-prop-ı-gey-şın|Hatayı geriye yayıp ağırlık güncellemelerini hesaplama|Her katman için gradyan bulmak","Learning Rate|ler-ning reyt|Her güncelleme adımının büyüklüğü|0.001","Epoch|i-pok|Tüm eğitim verisinin modelden bir kez geçmesi|10 epoch eğitim"]],
+["NLP","code",["NLP|en-el-pi|Bilgisayarın insan dilini anlaması ve üretmesi|Çeviri, duygu analizi","Tokenization|to-kı-nay-zey-şın|Metni token adı verilen parçalara ayırma|Cümleyi kelimelere bölmek","Embedding|em-be-ding|Anlamı sayı vektörüyle temsil etme|king ile queen vektörleri yakındır","Stop Words|stop vörds|Anlam katkısı az, sık geçen kelimeler|ve, bir, bu","Sentiment Analysis|sen-ti-mınt a-na-li-sis|Metnin olumlu veya olumsuz tonunu bulma|Ürün yorumu analizi"]],
+["Transformer & LLM","brain",["Transformer|trans-for-mır|Dikkat mekanizmasıyla çalışan modern dil modeli mimarisi|GPT ve BERT'in temeli","Attention|ı-ten-şın|Modelin girdinin önemli kısımlarına odaklanması|Cümlede ilgili kelimeye bakmak","LLM (Large Language Model)|el-el-em|Dev metin verisiyle eğitilmiş büyük dil modeli|Claude, GPT","Context Window|kon-tekst win-dou|Modelin tek seferde görebildiği metin uzunluğu|200 bin token","Hallucination|hı-lu-si-ney-şın|Modelin gerçek olmayan bilgiyi emin gibi üretmesi|Var olmayan bir makale uydurmak"]],
+["Prompt Engineering","code",["Prompt|prompt|Modele verilen girdi talimatı|Bu metni özetle","System Prompt|sis-tım prompt|Modelin rolünü ve kurallarını belirleyen üst talimat|Sen bir kod asistanısın","Few-shot|fyu-şot|Prompta birkaç örnek ekleyerek yönlendirme|Girdi-çıktı çiftleri vermek","Chain of Thought|çeyn ov thot|Modeli adım adım düşünmeye yönlendirme|Adım adım çöz","Temperature|tem-pır-ı-çır|Çıktının ne kadar rastgele olacağını ayarlayan değer|0 tutarlı, 1 yaratıcı"]],
+["RAG & Vektör DB","db",["RAG|rag|Cevaptan önce ilgili belgeleri bulup modele veren yöntem|Şirket dokümanlarına soru sormak","Vector Database|vek-tır dey-ta-beys|Embedding vektörlerini benzerlikle arayan veritabanı|Pinecone, pgvector","Chunking|çan-king|Uzun belgeyi küçük parçalara bölme|500 tokenlık parçalar","Semantic Search|se-man-tik sörç|Kelime yerine anlama göre arama|araba ile otomobil eşleşir","Cosine Similarity|ko-sayn si-mi-la-ri-ti|İki vektörün yön benzerliğini ölçen değer|1'e yakınsa çok benzer"]],
+["Agent & Araçlar","gear",["AI Agent|ey-ay ey-cınt|Hedef için adımlarını planlayıp araç kullanan yapay zeka|Kod yazıp test eden asistan","Tool Use|tul yus|Modelin harici fonksiyon ve API çağırması|Hava durumu API'sini çağırmak","Function Calling|fank-şın ko-ling|Modelin yapılandırılmış fonksiyon çağrısı üretmesi|get_weather(city)","MCP|em-si-pi|Modelleri araç ve veri kaynaklarına bağlayan açık protokol|Takvim veya veritabanı bağlayıcısı","Orchestration|or-kıs-trey-şın|Birden çok model ve aracı akış halinde yönetme|Planlayıcı ve uygulayıcı ajan"]],
+["Bilgisayarlı Görü","brain",["Computer Vision|kom-pyu-tır vi-jın|Bilgisayarın görüntüyü anlaması|Yüz tanıma","CNN|si-en-en|Görüntü özelliklerini filtrelerle çıkaran sinir ağı|Kedi mi köpek mi sınıflandırması","Object Detection|ob-cekt di-tek-şın|Görüntüde nesneleri bulup kutuyla işaretleme|Araç tespiti","Image Segmentation|i-mic seg-men-tey-şın|Görüntüyü piksel düzeyinde bölgelere ayırma|Tümör sınırını çizmek","Data Augmentation|dey-ta og-men-tey-şın|Görüntüleri çevirip döndürerek veriyi çoğaltma|Fotoğrafı aynalamak"]],
+["Fine-tuning","brain",["Fine-tuning|fayn tyu-ning|Hazır modeli kendi verinle ek eğitme|Hukuk metinlerine uyarlamak","Pre-training|pri trey-ning|Modelin büyük genel veriyle ilk eğitimi|Web metniyle eğitim","Transfer Learning|trans-fır ler-ning|Bir görevde öğrenileni başka göreve aktarma|Genel görüntü modelini tıbba uyarlamak","LoRA|lo-ra|Az parametre ekleyerek verimli ince ayar yöntemi|Küçük adaptör katmanları","Dataset|dey-ta-set|Model eğitimi için hazırlanmış veri koleksiyonu|10 bin etiketli örnek"]],
+["MLOps","gear",["MLOps|em-el-ops|Makine öğrenmesi modellerini üretimde yönetme pratiği|Model dağıtımı ve izleme","Model Deployment|mo-dıl di-ploy-mınt|Eğitilmiş modeli kullanıma açma|REST API olarak yayınlamak","Data Drift|dey-ta drift|Üretimdeki verinin zamanla eğitim verisinden sapması|Kullanıcı davranışı değişir","Experiment Tracking|ik-spe-ri-mınt tre-king|Deneylerin parametre ve sonuçlarını kaydetme|MLflow","Inference|in-fı-rıns|Eğitilmiş modelle tahmin üretme|Gelen isteğe cevap vermek"]],
+["Veri Mühendisliği","db",["ETL|i-ti-el|Veriyi çekip dönüştürüp hedefe yükleme süreci|Satış verisini depoya taşımak","Data Pipeline|dey-ta payp-layn|Verinin kaynaktan hedefe akışını otomatikleştiren hat|Günlük otomatik yükleme","Data Warehouse|dey-ta ver-haus|Analiz için düzenlenmiş merkezi veri deposu|BigQuery, Snowflake","Batch Processing|beç pro-se-sing|Veriyi toplu halde belirli aralıklarla işleme|Gece raporu üretmek","Streaming|stri-ming|Veriyi anlık akış halinde işleme|Kafka ile canlı olaylar"]],
+["AI Güvenliği & Etik","lock",["Bias|bay-ıs|Modelin eğitim verisinden gelen haksız eğilimi|Belirli gruba düşük puan vermek","Prompt Injection|prompt in-cek-şın|Zararlı girdiyle modelin talimatlarını ele geçirme|Belgeye gizli komut yazmak","Guardrails|gard-reylz|Modelin çıktısını güvenli sınırlarda tutan kurallar|Zararlı içeriği engellemek","Alignment|ı-layn-mınt|Modelin insan değer ve niyetleriyle uyumlu davranması|Zararsız ve yardımcı olmak","Explainability|iks-pleyn-ı-bi-li-ti|Model kararının nedenini açıklayabilme|Neden reddedildiğini göstermek"]],
+["Performans & Ölçek","gear",["Scalability|skey-lı-bi-li-ti|Sistemin yük arttıkça büyüyebilme yeteneği|Kullanıcı 10 katına çıksa da çalışmak","Quantization|kvan-ti-zey-şın|Model sayılarını düşük hassasiyete çevirip küçültme|16 bitten 4 bite","Batching|beç-ing|Birden çok isteği birlikte işleyerek verim artırma|8 isteği tek seferde çalıştırmak","Throughput|thru-put|Birim sürede işlenen iş miktarı|Saniyede 100 istek","Profiling|pro-fay-ling|Kodun zaman ve bellek harcadığı yerleri ölçme|Yavaş fonksiyonu bulmak"]],
+["Takım Pratikleri","gear",["Agile|e-cayl|Kısa döngülerle esnek ve iteratif geliştirme yaklaşımı|2 haftalık sprintler","Scrum|skram|Sprint ve rollerle işleyen çevik çerçeve|Günlük stand-up toplantısı","Code Review|kod ri-vyu|Kodun birleştirilmeden önce ekipçe incelenmesi|PR üzerinde yorum yazmak","Technical Debt|tek-ni-kıl det|Hızlı çözümlerin sonradan getirdiği bakım maliyeti|Geçici kodu temizlememek","Documentation|do-kyu-men-tey-şın|Kodun nasıl kullanılacağını anlatan yazılı kaynak|README dosyası"]]
+];
+const CAT=[null,"Yazılım Temelleri"];
+const ACR=/^(SSH|DNS|HTTPS|CDN|CNN|GPU|NLP|MCP|ETL|LLM|SQL|API|npm|DOM)$/,SAY={JSON:'Jason',MLOps:'M L Ops',LoRA:'Lora',SOLID:'Solid'};
+RAW.forEach((r,k)=>{const d=k+2;CAT[d]=r[0];
+  DAYS[d]=r[2].map(x=>{const[n,p,ds,e]=x.split('|');let b=n.replace(/\s*\(.*\)/,'').replace('/',' ');
+    return{n,p,s:SAY[b]||(ACR.test(b)?b.split('').join(' '):b),g:ICONS[r[1]],d:ds,e}})});
+/* Hazır soru yoksa: "Terim ne anlama gelir?" + aynı günün diğer açıklamalarından şıklar */
+function mkQ(t){
+  if(t.q)return{q:t.q,a:t.a,o:shuffle([t.a,...t.w])};
+  const same=terms(S.cur).filter(x=>x!==t).map(x=>x.d);
+  const all=Object.values(DAYS).flat().map(x=>x.d).filter(x=>x!==t.d&&!same.includes(x));
+  const dist=shuffle(same).slice(0,3);
+  while(dist.length<3)dist.push(shuffle(all).pop());
+  return{q:'"'+t.n+'" ne anlama gelir?',a:t.d,o:shuffle([t.d,...dist])};
+}
+
+/* ===== DURUM ===== */
+const $=s=>document.querySelector(s);
+let S={cur:0,learned:{},notes:{},scores:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem('terim30v2')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('terim30v2',JSON.stringify(S))}catch(e){}};
+const terms=d=>DAYS[d]||[];
+const lcount=d=>Object.keys(S.learned[d]||{}).length;
+const done=d=>terms(d).length>0&&lcount(d)>=terms(d).length;
+const sug=()=>{for(let d=1;d<=30;d++)if(!done(d))return d;return 30};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const nk=(d,i)=>d+'-'+i;
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600)}
+if(!S.cur)S.cur=sug();
+
+/* ===== SESLİ TELAFFUZ: en doğal en-US sesini seç ===== */
+let voice=null;
+function pickVoice(){
+  if(!('speechSynthesis' in window))return;
+  const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));
+  if(!vs.length)return;
+  const score=v=>{let s=0;const n=v.name;
+    if(/natural|neural|online/i.test(n))s+=60;
+    if(/google (us|uk)|samantha|aria|jenny|guy|ava|allison|serena|daniel|zira/i.test(n))s+=30;
+    if(/^en[-_]US$/i.test(v.lang))s+=20;else if(/^en[-_]GB$/i.test(v.lang))s+=12;
+    if(!v.localService)s+=5;return s};
+  voice=vs.slice().sort((a,b)=>score(b)-score(a))[0];
+}
+function speak(t){
+  if(!('speechSynthesis' in window))return toast('Tarayıcın sesli okumayı desteklemiyor.');
+  if(!voice)pickVoice();
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);
+  u.lang=voice?voice.lang:'en-US';if(voice)u.voice=voice;
+  u.rate=.9;u.pitch=1;u.volume=1;
+  speechSynthesis.speak(u);
+}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+
+/* ===== ARAYÜZ ===== */
+function renderTop(){
+  const d=S.cur,T=terms(d);
+  let tot=0,days=0,all=0;for(let k=1;k<=30;k++){tot+=lcount(k);all+=terms(k).length;if(done(k))days++}
+  $('#st1').textContent=`${days}/30 gün tamamlandı`;
+  $('#st2').textContent=`${tot}/${all} kelime öğrenildi`;
+  $('#bgAll').style.width=(tot/all*100)+'%';
+  $('#dt').innerHTML=`${d}. Gün<small>${esc(CAT[d])}</small>`;
+  let s='',o='';
+  for(let k=1;k<=30;k++){
+    s+=`<button class="seg${k===d?' act':''}${done(k)?' done':''}" data-d="${k}" aria-label="${k}. gün"></button>`;
+    o+=`<option value="${k}"${k===d?' selected':''}>${k}. Gün · ${CAT[k]}${done(k)?' ✓':''}</option>`;
+  }
+  $('#seg').innerHTML=s;$('#dsel').innerHTML=o;
+  $('#pd').disabled=d<=1;$('#nd').disabled=d>=30;
+  const c=lcount(d);
+  $('#bn').innerHTML=!T.length?'':done(d)
+    ?`<div class="panel done-b"><span>🎉 ${d}. gün tamamlandı! ${T.length} terimi öğrendin.</span><span class="hb"><button class="ghost" id="bt">Günün Testi</button>${d<30?'<button class="cta" id="gn">Sonraki güne geç →</button>':''}</span></div>`
+    :`<div class="panel"><div class="stats"><span>Bu gün: ${c}/${T.length} terim</span><span>${d<30?`${T.length-c} terim sonra ${d+1}. gün`:''}</span></div><div class="bar"><i style="width:${c/T.length*100}%"></i></div></div>`;
+}
+function renderCards(){
+  const d=S.cur,T=terms(d);
+  if(!T.length){
+    $('#main').innerHTML=`<div class="panel" style="grid-column:1/-1"><p>${d}. gün için henüz terim eklenmedi. Kodun başındaki <b>DAYS</b> nesnesine şu şablonla 20 terim ekle:</p><pre style="white-space:pre-wrap;background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-top:10px;font-size:.82rem;color:var(--vio);overflow:auto">${esc(TEMPLATE.replace('DAYS[2]','DAYS['+d+']'))}</pre></div>`;return;
+  }
+  $('#main').innerHTML=T.map((t,i)=>{
+    const L=!!(S.learned[d]||{})[i],note=S.notes[nk(d,i)]||'';
+    return `<article class="card${L?' ok':''}" data-i="${i}">
+      <div class="ill"><svg viewBox="0 0 120 64" aria-hidden="true">${t.g||''}</svg></div>
+      <div class="ch"><h3>${esc(t.n)}</h3><span class="ph">Okunuş: ${esc(t.p)}</span></div>
+      <p><b>Ne işe yarar:</b> ${esc(t.d)}</p>
+      ${t.e?`<p class="ex"><b>Örnek:</b> ${esc(t.e)}</p>`:''}
+      <p class="pn">${esc(note)}</p>
+      <div class="acts"><button class="spk" aria-label="${esc(t.n)} telaffuzunu dinle">🔊 Dinle</button><button class="nb${note.trim()?' has':''}">📝 Not</button><button class="lr">${L?'✓ Öğrendim':'Öğrendim'}</button></div>
+    </article>`;
+  }).join('');
+}
+function render(){renderTop();renderCards()}
+function go(d){S.cur=Math.max(1,Math.min(30,d));save();render();window.scrollTo({top:0,behavior:'smooth'})}
+
+/* ===== NOT DEFTERİ (yan panel) ===== */
+let dr=null;
+function listNotes(){
+  const ks=Object.keys(S.notes).filter(k=>S.notes[k].trim());
+  $('#nl').innerHTML=ks.length?'<h4>Tüm notlarım</h4>'+ks.map(k=>{const[d,i]=k.split('-').map(Number),t=terms(d)[i];return t?`<button class="ni" data-d="${d}" data-i="${i}"><b>${esc(t.n)} · ${d}. gün</b><span>${esc(S.notes[k])}</span></button>`:''}).join(''):'<h4>Henüz not yok. Bir kartta “📝 Not”a bas.</h4>';
+}
+function openNote(d,i){
+  dr=d?{d,i}:null;
+  const t=dr&&terms(d)[i];
+  $('#dc').innerHTML=(t?`<h3>${esc(t.n)}</h3><p class="sub">${d}. gün · notun otomatik kaydedilir</p><textarea id="nt" placeholder="Bu terim hakkındaki notun..."></textarea>`:'')+'<div id="nl"></div>';
+  if(t)$('#nt').value=S.notes[nk(d,i)]||'';
+  listNotes();
+  $('#dr').classList.add('on');document.body.classList.add('dro');
+  if(t)$('#nt').focus();
+}
+function closeNote(){$('#dr').classList.remove('on');document.body.classList.remove('dro')}
+document.addEventListener('input',e=>{
+  if(e.target.id!=='nt'||!dr)return;
+  const v=e.target.value;S.notes[nk(dr.d,dr.i)]=v;save();listNotes();
+  if(dr.d===S.cur){const c=document.querySelector(`.card[data-i="${dr.i}"]`);
+    if(c){c.querySelector('.nb').classList.toggle('has',!!v.trim());c.querySelector('.pn').textContent=v}}
+});
+
+/* ===== TEST ===== */
+let T=null;
+function startTest(){
+  T={qs:shuffle(terms(S.cur)).map(mkQ),i:0,ok:0,day:S.cur};
+  $('#test').classList.add('on');showQ();
+}
+function showQ(){
+  const q=T.qs[T.i],n=T.qs.length;
+  $('#tbox').innerHTML=`<div class="stats"><span>Soru ${T.i+1}/${n}</span><button class="ghost" id="quit">Çık</button></div><div class="bar"><i style="width:${T.i/n*100}%"></i></div>
+  <h2 style="margin:22px 0 6px">${esc(q.q)}</h2>${q.o.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}<div id="nx"></div>`;
+}
+function finish(){
+  const pct=Math.round(T.ok/T.qs.length*100),pass=pct>=70,d=T.day;
+  if(pct>(S.scores[d]||0))S.scores[d]=pct;save();
+  $('#tbox').innerHTML=`<div class="panel" style="text-align:center"><p class="sub">Test sonucu</p><div class="big" style="color:${pass?'var(--ok)':'var(--bad)'}">%${pct}</div>
+  <p>${T.ok}/${T.qs.length} doğru · ${pass?'Başarılı':'Biraz daha tekrar iyi olur'}</p>
+  <div class="hb" style="justify-content:center;margin-top:20px"><button class="ghost" id="retry">Testi tekrarla</button><button class="cta" id="close">Kapat</button></div></div>`;
+}
+
+/* ===== OLAYLAR ===== */
+document.addEventListener('click',e=>{
+  const c=s=>e.target.closest(s);let el;
+  if(el=c('.seg'))return go(+el.dataset.d);
+  if(c('#pd'))return go(S.cur-1);
+  if(c('#nd')||c('#gn'))return go(S.cur+1);
+  if(c('#bt'))return startTest();
+  if(c('#nbtn'))return openNote(null);
+  if(c('#drx'))return closeNote();
+  if(c('#print'))return window.print();
+  if(c('#reset')){if(confirm('Tüm ilerleme, not ve test sonuçları silinecek. Emin misin?')){S={cur:1,learned:{},notes:{},scores:{}};save();closeNote();render();toast('İlerleme sıfırlandı.')}return}
+  if(el=c('.ni')){const d=+el.dataset.d,i=+el.dataset.i;S.cur=d;save();render();openNote(d,i);const k=document.querySelector(`.card[data-i="${i}"]`);if(k)k.scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(el=c('.card')){
+    const i=+el.dataset.i,d=S.cur,t=terms(d)[i];
+    if(c('.spk'))return speak(t.s||t.n);
+    if(c('.nb'))return openNote(d,i);
+    if(c('.lr')){
+      S.learned[d]=S.learned[d]||{};
+      const was=done(d);
+      if(S.learned[d][i])delete S.learned[d][i];else S.learned[d][i]=1;
+      save();el.classList.toggle('ok',!!S.learned[d][i]);
+      c('.lr').textContent=S.learned[d][i]?'✓ Öğrendim':'Öğrendim';
+      renderTop();
+      if(!was&&done(d))toast(`🎉 ${d}. gün tamamlandı!`);
+    }
+    return;
+  }
+  if(!T)return;
+  if(c('#quit')||c('#close')){T=null;$('#test').classList.remove('on');renderTop();return}
+  if(c('#retry'))return startTest();
+  if(c('#tn')){T.i++;T.i<T.qs.length?showQ():finish();return}
+  if((el=c('.opt'))&&!el.disabled){
+    const q=T.qs[T.i],pick=q.o[+el.dataset.k];
+    if(pick===q.a)T.ok++;
+    document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(q.o[+b.dataset.k]===q.a)b.classList.add('good')});
+    if(pick!==q.a)el.classList.add('wrong');
+    $('#nx').innerHTML=`<button class="cta" id="tn" style="margin-top:16px">${T.i+1<T.qs.length?'Sonraki soru':'Sonucu gör'}</button>`;
+    $('#tn').focus();
+  }
+});
+$('#dsel').addEventListener('change',e=>go(+e.target.value));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeNote();if(T){T=null;$('#test').classList.remove('on')}}});
+
+render();
+</script>
+</body>
+<!-- ===== AI ASİSTAN WİDGET'I ===== -->
+<style>
+.aiw-btn{position:fixed;left:16px;bottom:16px;z-index:9;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:999px;color:#fff;font:600 .95rem "Segoe UI",system-ui,sans-serif;cursor:pointer;background:linear-gradient(135deg,#4f46e5,#8b5cf6);box-shadow:0 8px 24px rgba(79,70,229,.45);transition:transform .2s,box-shadow .2s}
+.aiw-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(79,70,229,.55)}
+.aiw-panel{position:fixed;left:16px;bottom:72px;z-index:9;width:min(380px,calc(100vw - 32px));height:min(540px,72vh);display:flex;flex-direction:column;background:#14122b;color:#e8e7f7;border:1px solid #2f2b5f;border-radius:16px;box-shadow:0 20px 50px rgba(15,10,60,.45);font:15px/1.55 "Segoe UI",system-ui,sans-serif;opacity:0;transform:translateY(12px) scale(.98);pointer-events:none;transition:opacity .25s,transform .25s;overflow:hidden}
+.aiw-panel.open{opacity:1;transform:none;pointer-events:auto}
+.aiw-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);font-weight:600}
+.aiw-head small{display:block;font-weight:400;opacity:.85;font-size:.75rem}
+.aiw-x{background:none;border:0;color:#fff;font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:8px}
+.aiw-x:hover{background:rgba(255,255,255,.18)}
+.aiw-log{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.aiw-m{max-width:88%;padding:9px 13px;border-radius:14px;word-wrap:break-word;overflow-wrap:anywhere}
+.aiw-m.u{align-self:flex-end;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
+.aiw-m.b{align-self:flex-start;background:#1f1c42;border:1px solid #2f2b5f;border-bottom-left-radius:4px}
+.aiw-m.err{border-color:#ef4444;color:#fecaca}
+.aiw-m code{background:#2a2660;padding:1px 5px;border-radius:5px;font:.85em Consolas,monospace}
+.aiw-m pre{background:#0d0b20;border:1px solid #2f2b5f;border-radius:8px;padding:10px;margin:6px 0;overflow:auto;white-space:pre}
+.aiw-m pre code{background:none;padding:0}
+.aiw-chips{display:flex;flex-wrap:wrap;gap:6px}
+.aiw-chip{background:#1f1c42;color:#c4b5fd;border:1px solid #2f2b5f;border-radius:999px;padding:5px 11px;font-size:.8rem;cursor:pointer;transition:.2s}
+.aiw-chip:hover{border-color:#8b5cf6;background:#2a2660}
+.aiw-dots span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:#a78bfa;animation:aiwb 1s infinite}
+.aiw-dots span:nth-child(2){animation-delay:.15s}.aiw-dots span:nth-child(3){animation-delay:.3s}
+@keyframes aiwb{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+.aiw-form{display:flex;gap:8px;padding:10px;border-top:1px solid #2f2b5f;background:#100e24}
+.aiw-in{flex:1;resize:none;max-height:110px;min-height:42px;background:#1a1838;color:#e8e7f7;border:1px solid #2f2b5f;border-radius:10px;padding:10px 12px;font:inherit}
+.aiw-in:focus{outline:2px solid #8b5cf6;outline-offset:0;border-color:transparent}
+.aiw-send{border:0;border-radius:10px;padding:0 16px;color:#fff;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#4f46e5,#8b5cf6);transition:opacity .2s}
+.aiw-send:disabled{opacity:.45;cursor:not-allowed}
+.aiw-note{padding:0 12px 8px;font-size:.7rem;color:#8b88b8;background:#100e24}
+@media(max-width:600px){.aiw-panel{left:8px;right:8px;width:auto;bottom:68px;height:75vh}.aiw-btn{left:10px;bottom:10px}}
+@media print{.aiw-btn,.aiw-panel{display:none!important}}
+@media(prefers-reduced-motion:reduce){.aiw-panel,.aiw-btn{transition:none}.aiw-dots span{animation:none}}
+</style>
+<script>
+(function(){
+  var ENDPOINT='/api/chat', hist=[], busy=false, lastSend=0;
+  var root=document.createElement('div');
+  root.innerHTML=
+   '<button class="aiw-btn" id="aiwBtn" aria-expanded="false" aria-controls="aiwPanel">🤖 AI Asistan</button>'+
+   '<section class="aiw-panel" id="aiwPanel" role="dialog" aria-label="AI Asistan">'+
+     '<div class="aiw-head"><div>AI Asistan<small>Terimler ve yazılım soruları için</small></div><button class="aiw-x" id="aiwX" aria-label="Kapat">✕</button></div>'+
+     '<div class="aiw-log" id="aiwLog" aria-live="polite"></div>'+
+     '<form class="aiw-form" id="aiwForm"><textarea class="aiw-in" id="aiwIn" rows="1" maxlength="1000" placeholder="Bir soru yaz..." aria-label="Mesajın"></textarea><button class="aiw-send" id="aiwSend" type="submit">Gönder</button></form>'+
+     '<div class="aiw-note">Yapay zeka hata yapabilir; önemli bilgileri doğrula. Mesajların ve ilerleme özetin yanıt üretmek için Google Gemini\'ye gönderilir. Notların gönderilmez.</div>'+
+   '</section>';
+  document.body.appendChild(root);
+  var $=function(id){return document.getElementById(id)};
+  var panel=$('aiwPanel'), log=$('aiwLog'), input=$('aiwIn'), sendBtn=$('aiwSend');
+
+  function context(){
+    try{
+      var S=JSON.parse(localStorage.getItem('terim30v2')||'{}'), cur=+S.cur||1, L=S.learned||{}, sc=S.scores||{};
+      var lc=function(d){return Object.keys(L[d]||{}).length};
+      var hasT=typeof terms==='function', total=0, done=0;
+      for(var d=1;d<=30;d++){var c=lc(d);total+=c;var n=hasT?terms(d).length:20;if(n&&c>=n)done++}
+      var o={day:cur,doneDays:done,learnedTotal:total,learnedToday:lc(cur)};
+      if(typeof CAT!=='undefined'&&CAT[cur])o.category=CAT[cur];
+      if(hasT)o.todayTerms=terms(cur).map(function(t){return t.n});
+      if(sc[cur]!=null)o.todayBestScore=sc[cur];
+      return o;
+    }catch(e){return {}}
+  }
+
+  function md(t){
+    return String(t).split(/(```[\s\S]*?```)/g).map(function(seg){
+      var h=seg.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      if(/^```/.test(h)) return '<pre><code>'+h.replace(/^```[\w-]*\n?/,'').replace(/```$/,'')+'</code></pre>';
+      return h.replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+    }).join('');
+  }
+  function add(role,text,html){
+    var m=document.createElement('div'); m.className='aiw-m '+role;
+    if(html) m.innerHTML=text; else m.textContent=text;
+    log.appendChild(m); log.scrollTop=log.scrollHeight; return m;
+  }
+  function chips(){
+    var w=document.createElement('div'); w.className='aiw-chips';
+    ['Bugünkü terimleri kısaca özetle','Git ile GitHub farkı nedir?','Şu an saat kaç?'].forEach(function(q){
+      var b=document.createElement('button'); b.type='button'; b.className='aiw-chip'; b.textContent=q;
+      b.onclick=function(){w.remove();send(q)}; w.appendChild(b);
+    });
+    log.appendChild(w);
+  }
+  function setBusy(v){busy=v;sendBtn.disabled=v;input.disabled=v;if(!v)input.focus()}
+
+  async function send(text){
+    text=(text||'').trim();
+    if(!text||busy)return;
+    if(Date.now()-lastSend<1500)return;
+    lastSend=Date.now();
+    var old=log.querySelector('.aiw-chips'); if(old)old.remove();
+    add('u',text); hist.push({role:'user',content:text}); if(hist.length>20)hist=hist.slice(-20);
+    input.value=''; input.style.height='auto'; setBusy(true);
+    var wait=add('b','<span class="aiw-dots"><span></span><span></span><span></span></span>',true);
+    try{
+      var r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        messages:hist.slice(-8), context:context(), clientTime:new Date().toString(),
+        timeZone:(Intl.DateTimeFormat().resolvedOptions().timeZone||'')
+      })});
+      var j={}; try{j=await r.json()}catch(e){}
+      if(!r.ok||!j.reply) throw new Error(j.error||'Bir hata oluştu, tekrar dene.');
+      wait.innerHTML=md(j.reply); hist.push({role:'assistant',content:j.reply});
+    }catch(e){
+      wait.textContent=(e instanceof TypeError)?'Sunucuya ulaşılamadı. İnternet bağlantını kontrol et.':e.message;
+      wait.classList.add('err'); hist.pop();
+    }
+    setBusy(false); log.scrollTop=log.scrollHeight;
+  }
+
+  function toggle(open){
+    panel.classList.toggle('open',open); $('aiwBtn').setAttribute('aria-expanded',open);
+    if(open){
+      if(!log.children.length){add('b','Merhaba! Terimler, yazılım ve yapay zeka hakkında soru sorabilirsin.');chips()}
+      setTimeout(function(){input.focus()},200);
+    }
+  }
+  $('aiwBtn').onclick=function(){toggle(!panel.classList.contains('open'))};
+  $('aiwX').onclick=function(){toggle(false)};$('aiwForm').addEventListener('submit',function(e){e.preventDefault();send(input.value)});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input.value)}});
+  input.addEventListener('input',function(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,110)+'px'});
+})();
+</script>
+</html>
