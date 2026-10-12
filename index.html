@@ -396,6 +396,40 @@ render();
 @media(max-width:600px){.aiw-panel{left:8px;right:8px;width:auto;bottom:68px;height:75vh}.aiw-btn{left:10px;bottom:10px}}
 @media print{.aiw-btn,.aiw-panel{display:none!important}}
 @media(prefers-reduced-motion:reduce){.aiw-panel,.aiw-btn{transition:none}.aiw-dots span{animation:none}}
+
+/* ===== MOBİL UYUMLULUK VE TAŞMA DÜZELTMESİ ===== */
+@media (max-width: 768px) {
+  .nav {
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .nav h2 {
+    font-size: 1.15rem;
+    flex: 1 1 100%;
+    order: 1;
+    text-align: left;
+  }
+  .ib {
+    order: 2;
+  }
+  select#dsel {
+    order: 3;
+    flex: 1;
+    max-width: 100% !important;
+  }
+  header.top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hb {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 <script>
 (function(){
